@@ -1,16 +1,34 @@
-## Put comments here that give an overall description of what your
-## functions do
+## The function creates a special vector which contains the matrix to be inverted, 
+## the function to get that matrix, the function to invert it and the function to get the inverted matrix
 
-## Write a short comment describing this function
 
 makeCacheMatrix <- function(x = matrix()) {
+ m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+        get <- function() x
+        setinverse <- function(solve) m <<- solve
+        getinverse <- function() m
+        list(set = set, get = get,
+             setinverse = setinverse,
+             getinverse = getinverse)
+
 
 }
 
 
-## Write a short comment describing this function
-## hola que diablos es un repository
-
+## This function checks if the matrix has already been inverted, if it has it gets the inverted matrix, 
+## if it does not then it inverts it
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        m <- x$getinverse()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data, ...)
+        x$setinverse(m)
+        m
 }
